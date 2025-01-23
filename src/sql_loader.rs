@@ -31,16 +31,23 @@ impl SqlLoader {
     }
 
     /// Run SQL content in give file.
+    pub async fn load_string(&self, content: String) -> error::Result<()> {
+        let _result =
+            self.pool
+                .execute(&*content)
+                .await
+                .with_context(|_| error::ExecuteSqlSnafu {
+                    path: format!("content: {}", content),
+                })?;
+        Ok(())
+    }
+
+    /// Run SQL content in give file.
     pub async fn load(&self, path: impl AsRef<str>) -> error::Result<()> {
         let path = path.as_ref();
         let content = tokio::fs::read_to_string(path)
             .await
             .context(error::ReadSqlFileSnafu { path })?;
-        let _result = self
-            .pool
-            .execute(&*content)
-            .await
-            .context(error::ExecuteSqlSnafu { path })?;
-        Ok(())
+        self.load_string(content).await
     }
 }
