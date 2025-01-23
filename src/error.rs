@@ -60,6 +60,30 @@ pub enum Error {
         #[snafu(implicit)]
         location: Location,
     },
+
+    #[snafu(display("Failed to read SQL file: {}", path))]
+    ReadSqlFile{
+        path:String,
+        #[snafu(implicit)]
+        location: Location,
+        source: std::io::Error,
+    },
+
+    #[snafu(display("Failed to connect to GreptimeDB server: {}", url))]
+    ConnectMysql{
+        url:String,
+        #[snafu(implicit)]
+        location: Location,
+        source: sqlx::error::Error,
+    },
+
+    #[snafu(display("Failed to execute SQL file: {}", path))]
+    ExecuteSql{
+        path:String,
+        #[snafu(implicit)]
+        location: Location,
+        source: sqlx::error::Error,
+    }
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

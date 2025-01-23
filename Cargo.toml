@@ -20,6 +20,7 @@ tokio-stream = { version = "0.1", features = ["net"] }
 tonic = { version = "0.11", features = ["tls", "tls-roots", "gzip", "zstd"] }
 tower = "0.4"
 derive_builder = "0.20"
+sqlx = { version = "0.8", features = ["mysql", "macros"] }
 
 [build-dependencies]
 tonic-build = "0.9"

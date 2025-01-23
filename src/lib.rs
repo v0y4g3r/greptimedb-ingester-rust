@@ -20,6 +20,8 @@ mod error;
 pub mod helpers;
 pub mod load_balance;
 mod stream_insert;
+#[allow(unused)]
+pub mod sql_loader;
 
 pub use self::channel_manager::{ChannelConfig, ChannelManager, ClientTlsOption};
 pub use self::client::{Client, ClientBuilder, Compression};
